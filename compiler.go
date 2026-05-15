@@ -203,21 +203,11 @@ func (c *Compiler) getSpecialVars(t *ast.Task, call *Call) (map[string]string, e
 	// across platforms. This prevents issues with backslashes being interpreted
 	// as escape sequences when paths are used in shell commands on Windows.
 	allVars := map[string]string{
-<<<<<<< ours
-		"TASK_EXE":            filepath.ToSlash(os.Args[0]),
-		"ROOT_TASKFILE":       filepath.ToSlash(filepathext.SmartJoin(c.Dir, c.Entrypoint)),
-		"ROOT_DIR":            filepath.ToSlash(c.Dir),
-		"USER_WORKING_DIR":    filepath.ToSlash(c.UserWorkingDir),
-		"TASK_VERSION":        version.GetVersion(),
-		"PATH_LIST_SEPARATOR": string(os.PathListSeparator),
-		"FILE_PATH_SEPARATOR": string(os.PathSeparator),
-=======
 		"TASK_EXE":         filepath.ToSlash(os.Args[0]),
 		"ROOT_TASKFILE":    filepathext.SmartJoin(c.RootDir, c.Entrypoint),
 		"ROOT_DIR":         c.RootDir,
 		"USER_WORKING_DIR": c.UserWorkingDir,
 		"TASK_VERSION":     version.GetVersion(),
->>>>>>> theirs
 	}
 	if t != nil {
 		allVars["TASK"] = t.Task

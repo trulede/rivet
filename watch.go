@@ -36,7 +36,7 @@ func (e *Executor) watchTasks(calls ...*Call) error {
 		tasks[i] = c.Task
 	}
 
-	e.Logger.Errf(logger.Green, "task: Started watching for tasks: %s\n", strings.Join(tasks, ", "))
+	e.Logger.Errorf("task: Started watching for tasks: %s\n", strings.Join(tasks, ", "))
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -47,9 +47,9 @@ func (e *Executor) watchTasks(calls ...*Call) error {
 
 			err := e.RunTask(ctx, c)
 			if err == nil {
-				e.Logger.Errf(logger.Green, "task: task \"%s\" finished running\n", c.Task)
+				e.Logger.Errorf("task: task \"%s\" finished running\n", c.Task)
 			} else if !isContextError(err) {
-				e.Logger.Errf(logger.Red, "%v\n", err)
+				e.Logger.Errorf("%v\n", err)
 			}
 		}(c)
 	}
@@ -90,7 +90,7 @@ func (e *Executor) watchTasks(calls ...*Call) error {
 				_ = path
 				watchFiles, err = e.collectSources(calls)
 				if err != nil {
-					e.Logger.Errf(logger.Red, "%v\n", err)
+					e.Logger.Errorf("%v\n", err)
 					continue
 				}
 
@@ -125,14 +125,14 @@ func (e *Executor) watchTasks(calls ...*Call) error {
 					}
 					watchFiles, err = e.collectSources(calls)
 					if err != nil {
-						e.Logger.Errf(logger.Red, "%v\n", err)
+						e.Logger.Errorf("%v\n", err)
 						continue
 					}
 
 					if createDir {
 						// If the CREATE relates to a folder, update the registered watch dirs (immediately).
 						if err := e.registerWatchedDirs(w, calls...); err != nil {
-							e.Logger.Errf(logger.Red, "%v\n", err)
+							e.Logger.Errorf("%v\n", err)
 						}
 					} else {
 						if !slices.Contains(watchFiles, event.Name) {
@@ -160,9 +160,9 @@ func (e *Executor) watchTasks(calls ...*Call) error {
 
 						err = e.RunTask(ctx, c)
 						if err == nil {
-							e.Logger.Errf(logger.Green, "task: task \"%s\" finished running\n", c.Task)
+							e.Logger.Errorf("task: task \"%s\" finished running\n", c.Task)
 						} else if !isContextError(err) {
-							e.Logger.Errf(logger.Red, "%v\n", err)
+							e.Logger.Errorf("%v\n", err)
 						}
 					}(c)
 				}
@@ -172,7 +172,7 @@ func (e *Executor) watchTasks(calls ...*Call) error {
 					cancel()
 					return
 				default:
-					e.Logger.Errf(logger.Red, "%v\n", err)
+					e.Logger.Errorf("%v\n", err)
 				}
 			}
 		}
@@ -186,7 +186,7 @@ func (e *Executor) watchTasks(calls ...*Call) error {
 		// from time to time.
 		for {
 			if err := e.registerWatchedDirs(w, calls...); err != nil {
-				e.Logger.Errf(logger.Red, "%v\n", err)
+				e.Logger.Errorf("%v\n", err)
 			}
 			time.Sleep(5 * time.Second)
 		}
