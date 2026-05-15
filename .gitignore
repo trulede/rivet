@@ -1,38 +1,51 @@
-# Binaries for programs and plugins
+# === Go Dependencies and Binaries ===
+# Local bin/ directory and root compiled executables
+bin/
 *.exe
+*.exe~
 *.dll
 *.so
 *.dylib
 
-# Test binary, build with `go test -c`
-*.test
+# Avoid committing your project's local builds
+/rivet
 
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
-
-# Graphvis files
-*.gv
-
-# Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
-.glide/
-
-./task
+# === Testing and Coverage Outputs ===
 .task
-dist/
+*.test
+*.out
+*.prof
+coverage.txt
+profile.out
 
-.DS_Store
-
-# editors
+# === Development Environment & OS Specifics ===
+# JetBrains IDEs (GoLand, IntelliJ)
 .idea/
-.vscode/settings.json
-.fleet/
+*.iml
+*.iws
 
-# exuberant ctags
-tags
+# Visual Studio Code
+.vscode/
+.history/
 
-/bin/*
-!/bin/.keep
-/testdata/vars/v1
-/tmp
-node_modules
-website/.netlify/
+# Mac OS metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux / Windows temporary states
+*~
+Thumbs.db
+ehthumbs.db
+
+# === Build Pipelines & CI Artifacts ===
+# Exclude your local Makefile build output directory
+/dist/
+*.tar.gz
+*.zip
+*_checksums.txt
+
+# === Local Environment Configuration ===
+.env
+.env.local
+.env.*.local
