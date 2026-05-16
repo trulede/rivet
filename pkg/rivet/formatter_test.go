@@ -8,7 +8,6 @@ import (
 	"github.com/sebdah/goldie/v2"
 	"github.com/stretchr/testify/require"
 
-	"github.com/go-rivet/rivet/pkg/rivet/experiments"
 	"github.com/go-rivet/rivet/pkg/rivet/taskfile/ast"
 
 	task "github.com/go-rivet/rivet/pkg/rivet"
@@ -45,25 +44,12 @@ func NewFormatterTest(t *testing.T, opts ...FormatterTestOption) {
 		task: "default",
 		vars: map[string]any{},
 		TaskTest: TaskTest{
-			experiments:         map[*experiments.Experiment]int{},
 			fixtureTemplateData: map[string]any{},
 		},
 	}
 	// Apply the functional options
 	for _, opt := range opts {
 		opt.applyToFormatterTest(tt)
-	}
-	// Enable any experiments that have been set
-	for x, v := range tt.experiments {
-		prev := *x
-		*x = experiments.Experiment{
-			Name:          prev.Name,
-			AllowedValues: []int{v},
-			Value:         v,
-		}
-		t.Cleanup(func() {
-			*x = prev
-		})
 	}
 	tt.run(t)
 }

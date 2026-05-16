@@ -15,7 +15,6 @@ import (
 	"github.com/go-rivet/rivet/internal/sort"
 	task "github.com/go-rivet/rivet/pkg/rivet"
 	"github.com/go-rivet/rivet/pkg/rivet/errors"
-	"github.com/go-rivet/rivet/pkg/rivet/experiments"
 	"github.com/go-rivet/rivet/pkg/rivet/taskfile/ast"
 	"github.com/go-rivet/rivet/pkg/rivet/taskrc"
 	taskrcast "github.com/go-rivet/rivet/pkg/rivet/taskrc/ast"
@@ -74,7 +73,6 @@ var (
 	Interval            time.Duration
 	Failfast            bool
 	Global              bool
-	Experiments         bool
 	Download            bool
 	Offline             bool
 	TrustedHosts        []string
@@ -90,14 +88,6 @@ var (
 )
 
 func init() {
-	// Config files can enable experiments which alter the availability and/or
-	// behavior of some flags, so we need to parse the experiments before the
-	// flags. However, we need the --taskfile and --dir flags before we can
-	// parse the experiments as they can alter the location of the config files.
-	// Because of this circular dependency, we parse the flags twice. First, we
-	// get the --taskfile and --dir flags, then we parse the experiments, then
-	// we parse the flags again to get the full set. We use a flagset here so
-	// that we can parse a subset of flags without exiting on error.
 	var dir, entrypoint string
 	fs := pflag.NewFlagSet("experiments", pflag.ContinueOnError)
 	fs.StringVarP(&dir, "dir", "d", "", "")
@@ -105,11 +95,8 @@ func init() {
 	fs.Usage = func() {}
 	_ = fs.Parse(os.Args[1:])
 
-	// Parse the experiments
 	dir = cmp.Or(dir, filepath.Dir(entrypoint))
-
 	config, _ := taskrc.GetConfig(dir)
-	experiments.ParseWithConfig(dir, config)
 
 	// Parse the rest of the flags
 	log.SetFlags(0)
@@ -151,19 +138,12 @@ func init() {
 	pflag.DurationVarP(&Interval, "interval", "I", 0, "Interval to watch for changes.")
 	pflag.BoolVarP(&Failfast, "failfast", "F", getConfig(config, "FAILFAST", func() *bool { return &config.Failfast }, false), "When running tasks in parallel, stop all tasks if one fails.")
 	pflag.BoolVarP(&Global, "global", "g", false, "Runs global Taskfile, from $HOME/{T,t}askfile.{yml,yaml}.")
-	pflag.BoolVar(&Experiments, "experiments", false, "Lists all the available experiments and whether or not they are enabled.")
 	pflag.StringVar(&LogFormat, "log", "", `Log format ("json" or "text").`)
 
-	// Gentle force experiment will override the force flag and add a new force-all flag
-	if experiments.GentleForce.Enabled() {
-		pflag.BoolVarP(&Force, "force", "f", false, "Forces execution of the directly called task.")
-		pflag.BoolVar(&ForceAll, "force-all", false, "Forces execution of the called task and all its dependant tasks.")
-	} else {
-		pflag.BoolVarP(&ForceAll, "force", "f", false, "Forces execution even when the task is up-to-date.")
-	}
+	pflag.BoolVarP(&ForceAll, "force", "f", false, "Forces execution even when the task is up-to-date.")
 
 	// Remote Taskfiles experiment will adds the "download" and "offline" flags
-	if experiments.RemoteTaskfiles.Enabled() {
+	if true {
 		pflag.BoolVar(&Download, "download", false, "Downloads a cached version of a remote Taskfile.")
 		pflag.BoolVar(&Offline, "offline", getConfig(config, "REMOTE_OFFLINE", func() *bool { return config.Remote.Offline }, false), "Forces Task to only use local or cached Taskfiles.")
 		pflag.StringSliceVar(&TrustedHosts, "trusted-hosts", getConfig(config, "REMOTE_TRUSTED_HOSTS", func() *[]string { return &config.Remote.TrustedHosts }, nil), "List of trusted hosts for remote Taskfiles (comma-separated).")

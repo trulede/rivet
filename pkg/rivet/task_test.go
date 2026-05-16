@@ -28,7 +28,6 @@ import (
 
 	"github.com/go-rivet/rivet/internal/filepathext"
 	"github.com/go-rivet/rivet/pkg/rivet/errors"
-	"github.com/go-rivet/rivet/pkg/rivet/experiments"
 	"github.com/go-rivet/rivet/pkg/rivet/taskfile/ast"
 
 	task "github.com/go-rivet/rivet/pkg/rivet"
@@ -45,7 +44,6 @@ type (
 	}
 	TaskTest struct {
 		name                     string
-		experiments              map[*experiments.Experiment]int
 		postProcessFns           []PostProcessFn
 		fixtureTemplateData      map[string]any
 		fixtureTemplatingEnabled bool
@@ -197,25 +195,6 @@ func (opt *executorOptionsTestOption) applyToExecutorTest(t *ExecutorTest) {
 
 func (opt *executorOptionsTestOption) applyToFormatterTest(t *FormatterTest) {
 	t.executorOpts = slices.Concat(t.executorOpts, opt.executorOpts)
-}
-
-// WithExperiment sets an experiment to be enabled for the test. This can be
-// called multiple times to enable more than one experiment.
-func WithExperiment(experiment *experiments.Experiment, value int) TestOption {
-	return &experimentTestOption{experiment: experiment, value: value}
-}
-
-type experimentTestOption struct {
-	experiment *experiments.Experiment
-	value      int
-}
-
-func (opt *experimentTestOption) applyToExecutorTest(t *ExecutorTest) {
-	t.experiments[opt.experiment] = opt.value
-}
-
-func (opt *experimentTestOption) applyToFormatterTest(t *FormatterTest) {
-	t.experiments[opt.experiment] = opt.value
 }
 
 // WithPostProcessFn adds a [PostProcessFn] function to the test. Post-process
@@ -916,8 +895,6 @@ func TestIncludesMultiLevel(t *testing.T) {
 }
 
 func TestIncludesRemote(t *testing.T) {
-	enableExperimentForTest(t, &experiments.RemoteTaskfiles, 1)
-
 	dir := "testdata/includes_remote"
 	_ = os.RemoveAll(filepath.Join(dir, ".task", "remote"))
 
@@ -1101,8 +1078,6 @@ func TestIncludesEmptyMain(t *testing.T) {
 }
 
 func TestIncludesHttp(t *testing.T) {
-	enableExperimentForTest(t, &experiments.RemoteTaskfiles, 1)
-
 	dir, err := filepath.Abs("testdata/includes_http")
 	require.NoError(t, err)
 
@@ -2923,20 +2898,4 @@ func TestWildcard(t *testing.T) {
 			assert.Equal(t, test.expectedOutput, buff.String())
 		})
 	}
-}
-
-// enableExperimentForTest enables the experiment behind pointer e for the duration of test t and sub-tests,
-// with the experiment being restored to its previous state when tests complete.
-//
-// Typically experiments are controlled via TASK_X_ env vars, but we cannot use those in tests
-// because the experiment settings are parsed during experiments.init(), before any tests run.
-func enableExperimentForTest(t *testing.T, e *experiments.Experiment, val int) {
-	t.Helper()
-	prev := *e
-	*e = experiments.Experiment{
-		Name:          prev.Name,
-		AllowedValues: []int{val},
-		Value:         val,
-	}
-	t.Cleanup(func() { *e = prev })
 }

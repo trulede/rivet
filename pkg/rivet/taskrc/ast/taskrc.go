@@ -2,7 +2,6 @@ package ast
 
 import (
 	"cmp"
-	"maps"
 	"slices"
 	"time"
 
@@ -19,7 +18,6 @@ type TaskRC struct {
 	Interactive  *bool           `yaml:"interactive"`
 	Remote       Remote          `yaml:"remote"`
 	Failfast     bool            `yaml:"failfast"`
-	Experiments  map[string]int  `yaml:"experiments"`
 }
 
 type Remote struct {
@@ -41,12 +39,6 @@ func (t *TaskRC) Merge(other *TaskRC) {
 	}
 
 	t.Version = cmp.Or(other.Version, t.Version)
-
-	if t.Experiments == nil && other.Experiments != nil {
-		t.Experiments = other.Experiments
-	} else if t.Experiments != nil && other.Experiments != nil {
-		maps.Copy(t.Experiments, other.Experiments)
-	}
 
 	// Merge Remote fields
 	t.Remote.Insecure = cmp.Or(other.Remote.Insecure, t.Remote.Insecure)

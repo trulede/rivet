@@ -73,11 +73,6 @@ func TestGetConfig_OnlyXDG(t *testing.T) { //nolint:paralleltest // cannot run i
 	assert.NoError(t, err)
 	assert.Equal(t, &ast.TaskRC{
 		Version: nil,
-		Experiments: map[string]int{
-			"FOO": 1,
-			"BAR": 1,
-			"BAZ": 1,
-		},
 	}, cfg)
 }
 
@@ -90,10 +85,6 @@ func TestGetConfig_OnlyHome(t *testing.T) { //nolint:paralleltest // cannot run 
 	assert.NoError(t, err)
 	assert.Equal(t, &ast.TaskRC{
 		Version: nil,
-		Experiments: map[string]int{
-			"FOO": 2,
-			"BAR": 2,
-		},
 	}, cfg)
 }
 
@@ -106,9 +97,6 @@ func TestGetConfig_OnlyLocal(t *testing.T) { //nolint:paralleltest // cannot run
 	assert.NoError(t, err)
 	assert.Equal(t, &ast.TaskRC{
 		Version: nil,
-		Experiments: map[string]int{
-			"FOO": 3,
-		},
 	}, cfg)
 }
 
@@ -129,11 +117,6 @@ func TestGetConfig_All(t *testing.T) { //nolint:paralleltest // cannot run in pa
 	assert.NotNil(t, cfg)
 	assert.Equal(t, &ast.TaskRC{
 		Version: nil,
-		Experiments: map[string]int{
-			"FOO": 3,
-			"BAR": 2,
-			"BAZ": 1,
-		},
 	}, cfg)
 }
 

@@ -16,7 +16,6 @@ import (
 	task "github.com/go-rivet/rivet/pkg/rivet"
 	"github.com/go-rivet/rivet/pkg/rivet/args"
 	"github.com/go-rivet/rivet/pkg/rivet/errors"
-	"github.com/go-rivet/rivet/pkg/rivet/experiments"
 	"github.com/go-rivet/rivet/pkg/rivet/taskfile/ast"
 )
 
@@ -69,10 +68,6 @@ func run() error {
 		return err
 	}
 
-	if err := experiments.Validate(); err != nil {
-		log.Warnf("%s\n", err.Error())
-	}
-
 	if flags.Version {
 		fmt.Println(version.GetVersionWithBuildInfo())
 		return nil
@@ -81,10 +76,6 @@ func run() error {
 	if flags.Help {
 		pflag.Usage()
 		return nil
-	}
-
-	if flags.Experiments {
-		return log.PrintExperiments()
 	}
 
 	if flags.Init {

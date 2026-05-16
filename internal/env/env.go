@@ -7,7 +7,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-rivet/rivet/pkg/rivet/experiments"
 	"github.com/go-rivet/rivet/pkg/rivet/taskfile/ast"
 )
 
@@ -39,11 +38,6 @@ func GetFromVars(env *ast.Vars) []string {
 	for k, v := range env.ToCacheMap() {
 		if !isTypeAllowed(v) {
 			continue
-		}
-		if !experiments.EnvPrecedence.Enabled() {
-			if _, alreadySet := os.LookupEnv(k); alreadySet {
-				continue
-			}
 		}
 		environ = append(environ, fmt.Sprintf("%s=%v", k, v))
 	}
