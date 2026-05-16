@@ -14,7 +14,7 @@ permissions:
 jobs:
   # --- Continuous Integration Stage (Runs on pushes and PRs) ---
   ci:
-    name: Code Quality & Verification Matrix
+    name: Build Lint Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code Repository
@@ -33,7 +33,7 @@ jobs:
       - name: Run Golangci-Lint Runner
         uses: golangci/golangci-lint-action@v6
         with:
-          version: v2
+          version: v2.12.2
 
       - name: Execute Makefile Test Target
         run: |
@@ -41,7 +41,7 @@ jobs:
 
   # --- Continuous Deployment Stage (Runs ONLY when a tag is pushed) ---
   release:
-    name: Package and Publish Artifacts
+    name: Package Publish
     needs: ci                                 # Blocks release if the build, lint, or test steps fail
     if: startsWith(github.ref, 'refs/tags/v') # Strictly limits execution to tag pushes
     runs-on: ubuntu-latest

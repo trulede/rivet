@@ -4,7 +4,7 @@ SRC_DIR=./cmd/rivet
 BUILD_DIR=bin
 DIST_DIR     = dist
 MODULE_PATH = github.com/rivet/rivet/internal/version
-GOLANGCI_LINT_VERSION := v1.64.5
+GOLANGCI_LINT_VERSION := v2.12.2
 GOTESTSUM_VERSION := v1.12.0
 
 # Dynamic build information extracted from local environment
@@ -96,7 +96,7 @@ deps:
 	# Install golangci-lint if missing
 	@if ! command -v golangci-lint >/dev/null 2>&1; then \
 		echo "Installing golangci-lint $(GOLANGCI_LINT_VERSION)..."; \
-		curl -sSfL githubusercontent.com | sh -s -- -b $(GOBIN) $(GOLANGCI_LINT_VERSION); \
+		curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(GOBIN) $(GOLANGCI_LINT_VERSION); \
 	else \
 		echo "✓ golangci-lint is already installed."; \
 	fi
