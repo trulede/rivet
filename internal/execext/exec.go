@@ -13,7 +13,7 @@ import (
 	"mvdan.cc/sh/v3/interp"
 	"mvdan.cc/sh/v3/syntax"
 
-	"github.com/go-rivet/rivet/errors"
+	"github.com/go-rivet/rivet/pkg/rivet/errors"
 )
 
 // ErrNilOptions is returned when a nil options is given

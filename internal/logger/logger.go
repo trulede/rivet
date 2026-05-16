@@ -11,9 +11,9 @@ import (
 
 	"github.com/Ladicle/tabwriter"
 
-	"github.com/go-rivet/rivet/errors"
-	"github.com/go-rivet/rivet/experiments"
 	"github.com/go-rivet/rivet/internal/term"
+	"github.com/go-rivet/rivet/pkg/rivet/errors"
+	"github.com/go-rivet/rivet/pkg/rivet/experiments"
 )
 
 const (

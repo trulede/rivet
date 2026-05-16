@@ -3,7 +3,7 @@ package fingerprint
 import (
 	"context"
 
-	"github.com/go-rivet/rivet/taskfile/ast"
+	"github.com/go-rivet/rivet/pkg/rivet/taskfile/ast"
 )
 
 // StatusCheckable defines any type that can check if the status of a task is up-to-date.

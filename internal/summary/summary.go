@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/go-rivet/rivet/internal/logger"
-	"github.com/go-rivet/rivet/taskfile/ast"
+	"github.com/go-rivet/rivet/pkg/rivet/taskfile/ast"
 )
 
 func PrintTasks(l *logger.Logger, t *ast.Taskfile, c []string) {

@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-rivet/rivet/experiments"
-	"github.com/go-rivet/rivet/taskfile/ast"
+	"github.com/go-rivet/rivet/pkg/rivet/experiments"
+	"github.com/go-rivet/rivet/pkg/rivet/taskfile/ast"
 )
 
 const taskVarPrefix = "TASK_"

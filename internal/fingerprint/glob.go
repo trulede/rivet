@@ -7,7 +7,7 @@ import (
 
 	"github.com/go-rivet/rivet/internal/execext"
 	"github.com/go-rivet/rivet/internal/filepathext"
-	"github.com/go-rivet/rivet/taskfile/ast"
+	"github.com/go-rivet/rivet/pkg/rivet/taskfile/ast"
 )
 
 func Globs(dir string, globs []*ast.Glob) ([]string, error) {

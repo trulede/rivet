@@ -9,7 +9,7 @@ import (
 	tea "charm.land/bubbletea/v2"
 	"charm.land/lipgloss/v2"
 
-	"github.com/go-rivet/rivet/errors"
+	"github.com/go-rivet/rivet/pkg/rivet/errors"
 )
 
 var ErrCancelled = errors.New("prompt cancelled")

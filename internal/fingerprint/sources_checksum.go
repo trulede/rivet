@@ -11,7 +11,7 @@ import (
 	"github.com/zeebo/xxh3"
 
 	"github.com/go-rivet/rivet/internal/filepathext"
-	"github.com/go-rivet/rivet/taskfile/ast"
+	"github.com/go-rivet/rivet/pkg/rivet/taskfile/ast"
 )
 
 // ChecksumChecker validates if a task is up to date by calculating its source

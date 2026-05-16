@@ -5,7 +5,7 @@ import (
 
 	"github.com/mitchellh/hashstructure/v2"
 
-	"github.com/go-rivet/rivet/taskfile/ast"
+	"github.com/go-rivet/rivet/pkg/rivet/taskfile/ast"
 )
 
 type HashFunc func(*ast.Task) (string, error)

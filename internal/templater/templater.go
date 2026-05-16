@@ -11,7 +11,7 @@ import (
 	"github.com/go-task/template"
 
 	"github.com/go-rivet/rivet/internal/deepcopy"
-	"github.com/go-rivet/rivet/taskfile/ast"
+	"github.com/go-rivet/rivet/pkg/rivet/taskfile/ast"
 )
 
 // Cache is a help struct that allow us to call "replaceX" funcs multiple

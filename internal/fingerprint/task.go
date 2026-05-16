@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/go-rivet/rivet/internal/logger"
-	"github.com/go-rivet/rivet/taskfile/ast"
+	"github.com/go-rivet/rivet/pkg/rivet/taskfile/ast"
 )
 
 type (

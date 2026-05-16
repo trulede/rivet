@@ -9,15 +9,15 @@ import (
 
 	"github.com/spf13/pflag"
 
-	task "github.com/go-rivet/rivet"
-	"github.com/go-rivet/rivet/args"
-	"github.com/go-rivet/rivet/errors"
-	"github.com/go-rivet/rivet/experiments"
 	"github.com/go-rivet/rivet/internal/filepathext"
 	"github.com/go-rivet/rivet/internal/flags"
 	"github.com/go-rivet/rivet/internal/logger"
 	"github.com/go-rivet/rivet/internal/version"
-	"github.com/go-rivet/rivet/taskfile/ast"
+	task "github.com/go-rivet/rivet/pkg/rivet"
+	"github.com/go-rivet/rivet/pkg/rivet/args"
+	"github.com/go-rivet/rivet/pkg/rivet/errors"
+	"github.com/go-rivet/rivet/pkg/rivet/experiments"
+	"github.com/go-rivet/rivet/pkg/rivet/taskfile/ast"
 )
 
 func main() {

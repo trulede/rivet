@@ -11,14 +11,14 @@ import (
 	"github.com/fatih/color"
 	"github.com/spf13/pflag"
 
-	task "github.com/go-rivet/rivet"
-	"github.com/go-rivet/rivet/errors"
-	"github.com/go-rivet/rivet/experiments"
 	"github.com/go-rivet/rivet/internal/env"
 	"github.com/go-rivet/rivet/internal/sort"
-	"github.com/go-rivet/rivet/taskfile/ast"
-	"github.com/go-rivet/rivet/taskrc"
-	taskrcast "github.com/go-rivet/rivet/taskrc/ast"
+	task "github.com/go-rivet/rivet/pkg/rivet"
+	"github.com/go-rivet/rivet/pkg/rivet/errors"
+	"github.com/go-rivet/rivet/pkg/rivet/experiments"
+	"github.com/go-rivet/rivet/pkg/rivet/taskfile/ast"
+	"github.com/go-rivet/rivet/pkg/rivet/taskrc"
+	taskrcast "github.com/go-rivet/rivet/pkg/rivet/taskrc/ast"
 )
 
 const usage = `Usage: task [flags...] [task...]
