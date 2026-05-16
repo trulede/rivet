@@ -117,15 +117,6 @@ func run() error {
 		return nil
 	}
 
-	if flags.Completion != "" {
-		script, err := task.Completion(flags.Completion)
-		if err != nil {
-			return err
-		}
-		fmt.Println(script)
-		return nil
-	}
-
 	e := task.NewExecutor(
 		flags.WithFlags(),
 		task.WithVersionCheck(true),
