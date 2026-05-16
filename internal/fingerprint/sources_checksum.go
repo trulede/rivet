@@ -108,7 +108,7 @@ func (c *ChecksumChecker) checksum(t *ast.Task) (string, error) {
 		if _, err = io.CopyBuffer(h, f, buf); err != nil {
 			return "", err
 		}
-		f.Close()
+		_ = f.Close()
 	}
 
 	hash := h.Sum128()

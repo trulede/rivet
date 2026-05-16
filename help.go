@@ -132,7 +132,7 @@ func (e *Executor) ListTaskNames(allTasks bool) error {
 		}
 	}
 	for _, t := range taskNames {
-		fmt.Fprintln(w, t)
+		_, _ = fmt.Fprintln(w, t)
 	}
 	return nil
 }

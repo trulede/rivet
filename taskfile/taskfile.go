@@ -53,7 +53,9 @@ func RemoteExists(ctx context.Context, u url.URL, client *http.Client) (*url.URL
 		}
 		return nil, errors.TaskfileFetchFailedError{URI: u.Redacted()}
 	}
-	defer resp.Body.Close()
+	defer func() {
+		_ = resp.Body.Close()
+	}()
 
 	// If the request was successful and the content type is allowed, return the
 	// URL The content type check is to avoid downloading files that are not
@@ -82,7 +84,9 @@ func RemoteExists(ctx context.Context, u url.URL, client *http.Client) (*url.URL
 		if err != nil {
 			return nil, errors.TaskfileFetchFailedError{URI: u.Redacted()}
 		}
-		defer resp.Body.Close()
+		defer func() {
+			_ = resp.Body.Close()
+		}()
 
 		// If the request was successful, return the URL
 		if resp.StatusCode == http.StatusOK {

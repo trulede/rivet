@@ -69,7 +69,12 @@ func (e *Executor) watchTasks(calls ...*Call) error {
 		cancel()
 		return err
 	}
-	defer w.Close()
+	defer func() {
+		err := w.Close()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error closing watcher: %v\n", err)
+		}
+	}()
 
 	deduper := fsnotifyext.NewDeduper(w, waitTime)
 	eventsChan := deduper.GetChan()
@@ -209,7 +214,10 @@ func closeOnInterrupt(w *fsnotify.Watcher) {
 	signal.Notify(ch, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-ch
-		w.Close()
+		err := w.Close()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error closing watcher: %v\n", err)
+		}
 		os.Exit(0)
 	}()
 }
@@ -244,7 +252,8 @@ func (e *Executor) registerWatchedDirs(w *fsnotify.Watcher, calls ...*Call) erro
 		if ShouldIgnore(d) {
 			continue
 		}
-		if err := w.Add(d); err != nil {
+		err := w.Add(d)
+		if err != nil {
 			return err
 		}
 		e.watchedDirs.Store(d, true)

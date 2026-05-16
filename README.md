@@ -20,8 +20,8 @@ $ make deps
 $ make build
 $ make install
 
-# Cross-compile for Desktop (Linux, macOS, Windows) and Embedded (Raspberry Pi ARMv7/ARM64).
-$ make cross-compile
+# Release build (all supported platforms).
+$ make release
 
 # Development commands.
 $ make test

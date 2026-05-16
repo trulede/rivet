@@ -9,7 +9,7 @@ import (
 
 	"github.com/spf13/pflag"
 
-	"github.com/go-rivet/rivet"
+	task "github.com/go-rivet/rivet"
 	"github.com/go-rivet/rivet/args"
 	"github.com/go-rivet/rivet/errors"
 	"github.com/go-rivet/rivet/experiments"
@@ -51,10 +51,10 @@ func emitCIErrorAnnotation(err error) {
 		return
 	}
 	if e, ok := err.(*errors.TaskRunError); ok {
-		fmt.Fprintf(os.Stdout, "::error title=Task '%s' failed::%v\n", e.TaskName, e.Err)
+		_, _ = fmt.Fprintf(os.Stdout, "::error title=Task '%s' failed::%v\n", e.TaskName, e.Err)
 		return
 	}
-	fmt.Fprintf(os.Stdout, "::error title=Task failed::%v\n", err)
+	_, _ = fmt.Fprintf(os.Stdout, "::error title=Task failed::%v\n", err)
 }
 
 func run() error {

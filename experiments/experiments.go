@@ -83,7 +83,7 @@ func readDotEnv(dir string) {
 	// If the env var is an experiment, set it.
 	for key, value := range env {
 		if strings.HasPrefix(key, envPrefix) {
-			os.Setenv(key, value)
+			_ = os.Setenv(key, value)
 		}
 	}
 }

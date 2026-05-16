@@ -1,4 +1,5 @@
 //go:build watch
+// +build watch
 
 package task_test
 

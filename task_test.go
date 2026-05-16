@@ -918,7 +918,7 @@ func TestIncludesRemote(t *testing.T) {
 	enableExperimentForTest(t, &experiments.RemoteTaskfiles, 1)
 
 	dir := "testdata/includes_remote"
-	os.RemoveAll(filepath.Join(dir, ".task", "remote"))
+	_ = os.RemoveAll(filepath.Join(dir, ".task", "remote"))
 
 	srv := httptest.NewServer(http.FileServer(http.Dir(dir)))
 	defer srv.Close()

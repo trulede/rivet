@@ -76,7 +76,7 @@ func (checker *TimestampChecker) IsUpToDate(t *ast.Task) (bool, error) {
 			if err != nil {
 				return false, err
 			}
-			f.Close()
+			_ = f.Close()
 		}
 	}
 

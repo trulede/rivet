@@ -122,7 +122,9 @@ func (node *HTTPNode) ReadContext(ctx context.Context) ([]byte, error) {
 		}
 		return nil, errors.TaskfileFetchFailedError{URI: node.Location()}
 	}
-	defer resp.Body.Close()
+	defer func() {
+		_ = resp.Body.Close()
+	}()
 	if resp.StatusCode != http.StatusOK {
 		return nil, errors.TaskfileFetchFailedError{
 			URI:            node.Location(),

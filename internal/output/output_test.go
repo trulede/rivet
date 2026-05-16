@@ -24,9 +24,9 @@ func TestInterleaved(t *testing.T) {
 	var o output.Output = output.Interleaved{}
 	w, _, _ := o.WrapWriter(&b, io.Discard, "", nil)
 
-	fmt.Fprintln(w, "foo\nbar")
+	_, _ = fmt.Fprintln(w, "foo\nbar")
 	assert.Equal(t, "foo\nbar\n", b.String())
-	fmt.Fprintln(w, "baz")
+	_, _ = fmt.Fprintln(w, "baz")
 	assert.Equal(t, "foo\nbar\nbaz\n", b.String())
 }
 
@@ -37,13 +37,13 @@ func TestGroup(t *testing.T) {
 	var o output.Output = output.Group{}
 	stdOut, stdErr, cleanup := o.WrapWriter(&b, io.Discard, "", nil)
 
-	fmt.Fprintln(stdOut, "out\nout")
+	_, _ = fmt.Fprintln(stdOut, "out\nout")
 	assert.Equal(t, "", b.String())
-	fmt.Fprintln(stdErr, "err\nerr")
+	_, _ = fmt.Fprintln(stdErr, "err\nerr")
 	assert.Equal(t, "", b.String())
-	fmt.Fprintln(stdOut, "out")
+	_, _ = fmt.Fprintln(stdOut, "out")
 	assert.Equal(t, "", b.String())
-	fmt.Fprintln(stdErr, "err")
+	_, _ = fmt.Fprintln(stdErr, "err")
 	assert.Equal(t, "", b.String())
 
 	require.NoError(t, cleanup(nil))
@@ -72,9 +72,9 @@ func TestGroupWithBeginEnd(t *testing.T) {
 		var b bytes.Buffer
 		w, _, cleanup := o.WrapWriter(&b, io.Discard, "", &tmpl)
 
-		fmt.Fprintln(w, "foo\nbar")
+		_, _ = fmt.Fprintln(w, "foo\nbar")
 		assert.Equal(t, "", b.String())
-		fmt.Fprintln(w, "baz")
+		_, _ = fmt.Fprintln(w, "baz")
 		assert.Equal(t, "", b.String())
 		require.NoError(t, cleanup(nil))
 		assert.Equal(t, "::group::example-value\nfoo\nbar\nbaz\n::endgroup::\n", b.String())
@@ -133,9 +133,9 @@ func TestPrefixed(t *testing.T) { //nolint:paralleltest // cannot run in paralle
 	t.Run("simple use cases", func(t *testing.T) { //nolint:paralleltest // cannot run in parallel
 		b.Reset()
 
-		fmt.Fprintln(w, "foo\nbar")
+		_, _ = fmt.Fprintln(w, "foo\nbar")
 		assert.Equal(t, "[prefix] foo\n[prefix] bar\n", b.String())
-		fmt.Fprintln(w, "baz")
+		_, _ = fmt.Fprintln(w, "baz")
 		assert.Equal(t, "[prefix] foo\n[prefix] bar\n[prefix] baz\n", b.String())
 		require.NoError(t, cleanup(nil))
 	})
@@ -144,7 +144,7 @@ func TestPrefixed(t *testing.T) { //nolint:paralleltest // cannot run in paralle
 		b.Reset()
 
 		for _, char := range []string{"T", "e", "s", "t", "!"} {
-			fmt.Fprint(w, char)
+			_, _ = fmt.Fprint(w, char)
 			assert.Equal(t, "", b.String())
 		}
 
@@ -181,7 +181,7 @@ func TestPrefixedWithColor(t *testing.T) {
 			var prefix bytes.Buffer
 			l.FOutf(&prefix, color, fmt.Sprintf("prefix-%d", i))
 
-			fmt.Fprintln(w, "foo\nbar")
+			_, _ = fmt.Fprintln(w, "foo\nbar")
 			assert.Equal(
 				t,
 				fmt.Sprintf("[%s] foo\n[%s] bar\n", prefix.String(), prefix.String()),
