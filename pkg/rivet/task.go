@@ -77,11 +77,6 @@ func (e *Executor) Run(ctx context.Context, calls ...*Call) error {
 		return nil
 	}
 
-	// Prompt for all required vars from deps upfront (parallel execution)
-	if err := e.promptDepsVars(calls); err != nil {
-		return err
-	}
-
 	regularCalls, watchCalls, err := e.splitRegularAndWatchCalls(calls...)
 	if err != nil {
 		return err
@@ -151,12 +146,9 @@ func (e *Executor) RunTask(ctx context.Context, call *Call) error {
 		return nil
 	}
 
-	// Check required vars early (before template compilation) if we can't prompt.
-	// This gives a clear "missing required variables" error instead of a template error.
-	if !e.canPrompt() {
-		if err := e.areTaskRequiredVarsSet(t); err != nil {
-			return err
-		}
+	// Check required vars early (before template compilation).
+	if err := e.areTaskRequiredVarsSet(t); err != nil {
+		return err
 	}
 
 	// Attempt to create the task dir before compiling the task so that ShVars can run/access
@@ -181,19 +173,6 @@ func (e *Executor) RunTask(ctx context.Context, call *Call) error {
 		}); err != nil {
 			e.Logger.VerboseOutf(logger.Yellow, "task: if condition not met - skipped: %q\n", call.Task)
 			return nil
-		}
-	}
-
-	// Prompt for missing required vars after if check (avoid prompting if task won't run)
-	prompted, err := e.promptTaskVars(t, call)
-	if err != nil {
-		return err
-	}
-	if prompted {
-		// Recompile with the new vars
-		t, err = e.FastCompiledTask(call)
-		if err != nil {
-			return err
 		}
 	}
 
