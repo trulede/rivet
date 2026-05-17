@@ -3,7 +3,7 @@ BINARY_NAME=rivet
 SRC_DIR=./cmd/rivet
 BUILD_DIR=bin
 DIST_DIR     = dist
-MODULE_PATH = github.com/rivet/rivet/internal/version
+MODULE_PATH = github.com/go-rivet/rivet/internal/version
 GOLANGCI_LINT_VERSION := v2.12.2
 GOTESTSUM_VERSION := v1.12.0
 

@@ -1,4 +1,4 @@
-name: Build, Test & Release Pipeline
+name: CI
 
 on:
   push:
@@ -80,3 +80,11 @@ jobs:
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trigger Docker Build Workflow
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.DOCKER_REPO_TRIGGER_PAT }}
+          repository: go-rivet/docker
+          event-type: rivet-release
+          client-payload: '{"version": "${{ github.ref_name }}"}'
